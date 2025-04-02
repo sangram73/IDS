@@ -101,7 +101,7 @@ This project serves as a foundation for a robust and scalable **Windows-based HI
 ---
 
 ## **Contributors**
-🚀 **Sangram Panda** & **Satya Praksh  Swin**  
+🚀 **Sangram Panda** & **Satya Praksh  Swain**  
 🔗 **GitHub**: #  
 ✉️ **Contact**:   
 
