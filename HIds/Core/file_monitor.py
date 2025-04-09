@@ -5,6 +5,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from datetime import datetime
 
+
 WATCH_DIR = r"C:\Users\KIIT0001\Pictures"  # Update as needed
 LOG_FILE = r"IDS\HIds\logs\file_changes.log"
 SNAPSHOT_FILE = r"IDS\HIds\logs\snapshot.json"
@@ -12,6 +13,7 @@ SNAPSHOT_FILE = r"IDS\HIds\logs\snapshot.json"
 class FileChangeLogger(FileSystemEventHandler):
     def __init__(self):
         super().__init__()
+
 
     def log_change(self, action, path):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -86,8 +88,10 @@ if __name__ == "__main__":
 
     if changes:
         print("[*] Detected changes since last run:")
+
         with open(LOG_FILE, 'w') as log:
              for action, file in changes:
+
                 log_msg = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {action}: {file}"
                 print(log_msg)
                 log.write(log_msg + "\n")
@@ -109,5 +113,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         observer.stop()
         print("\n[!] Monitoring stopped.")
+
 
     observer.join()

@@ -7,7 +7,9 @@ def get_running_processes(search_term=""):
         process_info = process.info
         if search_term.lower() in process_info['name'].lower():
             running_processes.append((process_info['pid'], process_info['name']))
-    with open("IDS\HIds\Core\process_log.txt","w") as log_file:
+
+    with open("IDS\HIds\logs\process_log.log","w") as log_file:
+
         for pid, name in running_processes:
             print(pid,name)
             log_file.write(f"{pid}: {name}\n")
