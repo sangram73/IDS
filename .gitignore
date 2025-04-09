@@ -1,1 +1,7 @@
 HIds/Core/test.py
+HIds/__init__.py
+
+HIds/Core/__init__.py
+HIds/Core/network_traffic.txt
+HIds/Core/process_log.txt
+HIds/utils/logger.py
