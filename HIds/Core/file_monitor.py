@@ -6,8 +6,8 @@ from watchdog.events import FileSystemEventHandler
 from datetime import datetime
 
 WATCH_DIR = r"C:\Users\KIIT0001\Pictures"  # Update as needed
-LOG_FILE = r"C:\Users\KIIT0001\Documents\MCA Project\IDS\HIds\logs\file_changes.log"
-SNAPSHOT_FILE = r"C:\Users\KIIT0001\Documents\MCA Project\IDS\HIds\logs\snapshot.json"
+LOG_FILE = r"IDS\HIds\logs\file_changes.log"
+SNAPSHOT_FILE = r"IDS\HIds\logs\snapshot.json"
 
 class FileChangeLogger(FileSystemEventHandler):
     def __init__(self):
