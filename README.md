@@ -72,12 +72,14 @@ Windows-HIDS/
 │   │── utils/               # Helper utilities
 │   │   │── logger.py
 │   │   │── config.py
+|    |    │── Gui.py
 │   │── detection_engine.py  # Analyzes threats
 │   │── alert_manager.py     # Handles alerts
 │   │── main.py              # Entry point
 │── tests/                   # Unit tests
 │── docs/                    # Documentation
-│── scripts/                 # Helper scripts
+│── scripts/   
+│── Main.py              # Helper scripts
 │── requirements.txt         # Dependencies
 │── README.md                # Project overview
 ```
@@ -91,11 +93,11 @@ Windows-HIDS/
 - **Code Reviews**: Ensuring quality and security of the code.
 
 ```bash
-git clone <repo-url>
-git branch feature/<feature-name>
-git checkout feature/<feature-name>
+git clone https://github.com/sangram73/IDS.git
+git branch spbranch
+git checkout 
 git commit -m "Implemented feature"
-git push origin feature/<feature-name>
+git push origin main
 ```
 
 ---
