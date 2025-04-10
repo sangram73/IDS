@@ -7,3 +7,5 @@ HIds/Core/process_log.txt
 HIds/utils/logger.py
 HIds/utils/logger.py
 HIds/utils/logger.py
+HIds/Core/__pycache__/alert_manager.cpython-311.pyc
+HIds/logs/file_changes.log
