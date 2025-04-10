@@ -1,6 +1,8 @@
+process
 wuauserv.exe
 svch0st.exe
 csrss.exe
+ShellHost.exe
 lsasss.exe
 spoolsv.exe
 rundll32.exe
@@ -18,4 +20,4 @@ trojan.exe
 ransomware.exe
 spyware.dll
 update_helper.exe
-keylogger
+keylogger.exe

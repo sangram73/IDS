@@ -9,3 +9,11 @@ HIds/utils/logger.py
 HIds/utils/logger.py
 HIds/Core/__pycache__/alert_manager.cpython-311.pyc
 HIds/logs/file_changes.log
+HIds/__pycache__/alert_manager.cpython-311.pyc
+HIds/Core/__pycache__/registry_monitor.cpython-311.pyc
+HIds/Core/__pycache__/process_monitor.cpython-311.pyc
+HIds/Core/__pycache__/network_monitor.cpython-311.pyc
+HIds/Core/__pycache__/file_monitor.cpython-311.pyc
+HIds/Core/__pycache__/alert_manager.cpython-311.pyc
+HIds/__pycache__/alert_manager.cpython-311.pyc
+HIds/Core/__pycache__/file_monitor.cpython-311.pyc
