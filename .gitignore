@@ -1,5 +1,9 @@
-<<<<<<< HEAD
-.venv
-=======
-HIds/Core/test.py
->>>>>>> 29ed810c5a0ec0cb5457d544d7ea3c5c2df7f61a
+
+HIds/__init__.py
+
+HIds/Core/__init__.py
+HIds/Core/network_traffic.txt
+HIds/Core/process_log.txt
+HIds/utils/logger.py
+HIds/utils/logger.py
+HIds/utils/logger.py

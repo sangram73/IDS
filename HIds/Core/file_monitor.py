@@ -6,10 +6,9 @@ from watchdog.events import FileSystemEventHandler
 from datetime import datetime
 from alert_manager import show_alert
 
-
-WATCH_DIR = r"C:\Users\KIIT0001\OneDrive\Pictures"  # Update as needed
-LOG_FILE = r"C:\Study\MajorProject\IDS\HIds\logs\file_changes.log"
-SNAPSHOT_FILE = r"C:\Study\MajorProject\IDS\HIds\logs\snapshot.json"
+WATCH_DIR = r"C:\Users\KIIT0001\Pictures"  # Update as needed
+LOG_FILE = r"IDS\HIds\logs\file_changes.log"
+SNAPSHOT_FILE = r"IDS\HIds\logs\snapshot.json"
 
 class FileChangeLogger(FileSystemEventHandler):
     def __init__(self):
@@ -89,10 +88,13 @@ if __name__ == "__main__":
 
     if changes:
         print("[*] Detected changes since last run:")
-        alert_message="A file change has been detected"
+
+        alert_message = "A file change has detected"
         show_alert(alert_message)
-        with open(LOG_FILE, 'a') as log:
-            for action, file in changes:
+
+        with open(LOG_FILE, 'w') as log:
+             for action, file in changes:
+
                 log_msg = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {action}: {file}"
                 print(log_msg)
                 log.write(log_msg + "\n")

@@ -19,6 +19,7 @@ def get_running_processes():
             continue
 
     with open("C:\\Study\\MajorProject\\IDS\\HIds\\logs\\process_log.log","w") as log_file:
+
         for pid, name in running_processes:
             print(pid,name)
             log_file.write(f"{pid}: {name}\n")
