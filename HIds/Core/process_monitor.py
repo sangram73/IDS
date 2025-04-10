@@ -1,49 +1,30 @@
 import tkinter as tk
 import psutil
+from alert_manager import show_alert
+import pandas
 
-def get_running_processes(search_term=""):
+def get_running_processes():
     running_processes = []
+    malicious_keywords = pandas.read_csv(r"C:\Study\MajorProject\IDS\HIds\logs\blacklisted_Processes.csv")
     for process in psutil.process_iter(attrs=['pid', 'name']):
-        process_info = process.info
-        if search_term.lower() in process_info['name'].lower():
-            running_processes.append((process_info['pid'], process_info['name']))
+        process_name = process.info['name']
+        process_id = process.info['pid']
+        running_processes.append((process_id, process_name))
 
-    with open("IDS\HIds\logs\process_log.log","w") as log_file:
+        try:          
+            if any(keyword in process_name.lower() for keyword in malicious_keywords):
+                print(f"ALERT! Suspicious Process Detected: {process_name}")
+                show_alert("ALERT! Suspicious Process Detected: {process_name}")
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+
+    with open("C:\\Study\\MajorProject\\IDS\\HIds\\logs\\process_log.log","w") as log_file:
 
         for pid, name in running_processes:
             print(pid,name)
             log_file.write(f"{pid}: {name}\n")
     return running_processes
 
-def update_process_list():
-    search_text = search_entry.get()  # Get the search term from the entry widget
-    process_list.delete(0, tk.END)
-    processes = get_running_processes(search_text)
-    for pid, name in processes:
-        process_list.insert(tk.END, f"{pid}: {name}")
+get_running_processes()
 
-# Create the main application window
-root = tk.Tk()
-root.title("Running Processes")
-root.geometry("500x500")
 
-# Create an entry widget for searching
-search_entry = tk.Entry(root, font=("Helvetica", 16))
-search_entry.pack()
-
-# Create a listbox to display the running processes
-process_list = tk.Listbox(root, height=15, width=85, font=("Helvetica", 16))
-process_list.pack()
-
-# Create a button to refresh the process list
-refresh_button = tk.Button(root, text="Refresh", command=update_process_list)
-refresh_button.pack()
-
-# Create a button to perform the search
-search_button = tk.Button(root, text="Search", command=update_process_list)
-search_button.pack()
-
-# Update the process list initially
-update_process_list()
-
-root.mainloop()

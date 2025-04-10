@@ -6,8 +6,6 @@ from watchdog.events import FileSystemEventHandler
 from datetime import datetime
 from alert_manager import show_alert,show_warning
 
-
-
 WATCH_DIR = r"C:\Users\KIIT0001\Pictures"  # Update as needed
 LOG_FILE = r"IDS\HIds\logs\file_changes.log"
 SNAPSHOT_FILE = r"IDS\HIds\logs\snapshot.json"
@@ -90,9 +88,11 @@ if __name__ == "__main__":
 
     if changes:
         print("[*] Detected changes since last run:")
+
         alert_message = "A file change has been detected"
         # show_alert("alert_message")
         show_warning(alert_message)
+
         with open(LOG_FILE, 'w') as log:
              for action, file in changes:
 
