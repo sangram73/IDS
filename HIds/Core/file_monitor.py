@@ -4,7 +4,7 @@ import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from datetime import datetime
-from alert_manager import show_alert
+from alert_manager import show_alert,show_warning
 
 
 
@@ -21,7 +21,7 @@ class FileChangeLogger(FileSystemEventHandler):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         message = f"{timestamp} - {action}: {path}"
         print(message)
-        with open(LOG_FILE, 'a') as log:
+        with open(LOG_FILE, 'w') as log:
             log.write(message + "\n")
 
     def on_created(self, event):
@@ -90,9 +90,9 @@ if __name__ == "__main__":
 
     if changes:
         print("[*] Detected changes since last run:")
-        alert_message = "A file change has detected"
-        show_alert(alert_message)
-
+        alert_message = "A file change has been detected"
+        # show_alert("alert_message")
+        show_warning(alert_message)
         with open(LOG_FILE, 'w') as log:
              for action, file in changes:
 
