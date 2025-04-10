@@ -72,7 +72,7 @@ Windows-HIDS/
 │   │── utils/               # Helper utilities
 │   │   │── logger.py
 │   │   │── config.py
-|    |    │── Gui.py
+|   |   │── Gui.py
 │   │── detection_engine.py  # Analyzes threats
 │   │── alert_manager.py     # Handles alerts
 │   │── main.py              # Entry point
