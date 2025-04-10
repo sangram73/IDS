@@ -3,6 +3,7 @@ from scapy.all import sniff
 from datetime import datetime
 import pandas
 
+
 #Function to log packets
 def packet_callback(packet):
     #TimeStamp of packet creation
@@ -22,6 +23,7 @@ def packet_callback(packet):
                         print("Warning!!!Request sent from Blacklisted IP!")
         
    
+
 #Start monitoring network traffic
 def start_sniffing(interface):
     print(f"Starting network monitoring on {interface}...")
@@ -30,6 +32,7 @@ def start_sniffing(interface):
 #Execute main function
 if __name__ == "__main__":
     #Specify the network interface (e.g. eth0 or wlan0)
+
     scapy.show_interfaces()
     interface = input("Enter interface")
 

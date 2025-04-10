@@ -12,8 +12,9 @@ LOG_FILE = r"C:\Study\MajorProject\IDS\HIds\logs\file_changes.log"
 SNAPSHOT_FILE = r"C:\Study\MajorProject\IDS\HIds\logs\snapshot.json"
 
 class FileChangeLogger(FileSystemEventHandler):
-    def _init_(self):
-        super()._init_()
+    def __init__(self):
+        super().__init__()
+
 
     def log_change(self, action, path):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -106,12 +107,13 @@ if __name__ == "__main__":
     observer = Observer()
     observer.schedule(event_handler, path=WATCH_DIR, recursive=True)
     observer.start()
-    print("Xxx")
+
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
         print("\n[!] Monitoring stopped.")
+
 
     observer.join()
