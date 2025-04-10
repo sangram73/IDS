@@ -8,16 +8,16 @@ def packet_callback(packet):
     #TimeStamp of packet creation
     time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     #Write packet information to file
-    with open("network_traffic_log.txt","a") as log_file:
+    with open(r"HIds\logs\network_traffic.log","a") as log_file:
         log_file.write(f"{time} - {packet.summary()}\n")
         if packet.haslayer('IP'):
             src_ip=packet['IP'].src
             dst_ip=packet['IP'].dst
             print(f"Packet detected from {src_ip} to {dst_ip}")
-            with open("blacklisted_IP.csv","r") as IP_file:
+            with open(r"HIds\logs\blacklisted_IP.csv","r") as IP_file:
                 datareader=pandas.read_csv(IP_file)
                 for IP in datareader:
-                    print(IP)
+                    # print(IP) #testing
                     if(src_ip==IP):
                         print("Warning!!!Request sent from Blacklisted IP!")
         

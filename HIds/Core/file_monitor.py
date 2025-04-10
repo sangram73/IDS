@@ -4,6 +4,8 @@ import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from datetime import datetime
+from alert_manager import show_alert
+
 
 WATCH_DIR = r"C:\Users\KIIT0001\OneDrive\Pictures"  # Update as needed
 LOG_FILE = r"C:\Study\MajorProject\IDS\HIds\logs\file_changes.log"
@@ -86,6 +88,8 @@ if __name__ == "__main__":
 
     if changes:
         print("[*] Detected changes since last run:")
+        alert_message="A file change has been detected"
+        show_alert(alert_message)
         with open(LOG_FILE, 'a') as log:
             for action, file in changes:
                 log_msg = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {action}: {file}"
