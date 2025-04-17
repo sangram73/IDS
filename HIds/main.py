@@ -6,8 +6,6 @@ from Core.process_monitor import ProcessMonitor
 from Core.registry_monitor import RegistryMonitor
 from Core.network_monitor import NetworkMonitor
 from utils.gui import HIDSApp
-
-
 import scapy.all as scapy
 import winreg
 
