@@ -1,12 +1,14 @@
 import scapy.all as scapy
 from datetime import datetime
 import pandas as pd
+import threading
 
 class NetworkMonitor:
     def __init__(self, interface):
         self.interface = interface
-        self.log_file_path = r"IDS\HIds\logs\network_traffic.log"
-        self.blacklisted_ip_file_path = r"IDS\HIds\logs\blacklisted_IP.csv"
+        self.log_file_path = r"HIds\logs\network_traffic.log"
+        self.blacklisted_ip_file_path = r"HIds\logs\blacklisted_IP.csv"
+        self.sniffing = False  # Flag to control sniffing
 
     def packet_callback(self, packet):
         # TimeStamp of packet creation
@@ -31,5 +33,22 @@ class NetworkMonitor:
 
     def start_sniffing(self):
         print(f"Starting network monitoring on {self.interface}...")
-        scapy.sniff(iface=self.interface, prn=self.packet_callback, store=False)
+        self.sniffing = True
+        # Start sniffing in a separate thread
+        threading.Thread(target=self._sniff).start()
 
+    def _sniff(self):
+        scapy.sniff(iface=self.interface, prn=self.packet_callback, store=False, stop_filter=self.stop_filter)
+
+    def stop_filter(self, packet):
+        return not self.sniffing  # Stop sniffing if sniffing is set to False
+
+    def stop_sniffing(self):
+        print("Stopping network monitoring...")
+        self.sniffing = False  # Set the flag to False to stop sniffing
+
+# Example usage:
+# monitor = NetworkMonitor("eth0")
+# monitor.start_sniffing()
+# ... some time later ...
+# monitor.stop_sniffing()
