@@ -1,26 +1,58 @@
 import psutil
-from alert_manager import show_alert,show_warning
-import pandas
+import csv
+import time
+from tkinter import messagebox
 
-class ProcessMonitor():
-        
-    def get_running_processes(self):
-        running_processes = []
-        malicious_keywords = pandas.read_csv(r"HIds\logs\blacklisted_Processes.csv")
-        for process in psutil.process_iter(attrs=['pid', 'name']):
-            process_name = process.info['name']
-            process_id = process.info['pid']
-            running_processes.append((process_id, process_name))
+class ProcessMonitor:
+    
+    def __init__(self):
+        self.scanning = False
+        self.malicious_processes = self.load_malicious_processes('HIds/logs/blacklisted_Processes.csv')
 
-            try:          
-                if any(keyword in process_name.lower() for keyword in malicious_keywords):
-                    print(f"ALERT! Suspicious Process Detected: {process_name}")
-                    show_alert(f"ALERT! Suspicious Process Detected:{process_name}")
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+    def load_malicious_processes(self, file_path):
+        malicious_processes = []
+        with open(file_path, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                malicious_processes.append(row['keyword'])
+        return malicious_processes
+
+    def check_running_processes(self):
+        detected_processes = []
+        for proc in psutil.process_iter(['pid', 'name']):
+            try:
+                if proc.info['name'] in self.malicious_processes:
+                    detected_processes.append(f"{proc.info['name']} (PID: {proc.info['pid']})")
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
                 continue
+        return detected_processes
 
-        with open("HIds\logs\process_log.log","w") as log_file:
-            for pid, name in running_processes:
-                # print(pid,name)
-                log_file.write(f"{pid}: {name}\n")
-        return running_processes
+    def process_scan(self):
+        self.scanning = True
+        messagebox.showinfo("Process Scan", "Checking running processes...")
+        
+        # Simulate work being done
+        for i in range(5):
+            if not self.scanning:
+                messagebox.showinfo("Scan Aborted", "Process check was aborted.")
+                return
+            time.sleep(1)  # Simulate work being done
+        
+        # Check for malicious processes
+        detected_processes = self.check_running_processes()
+        self.scanning = False
+        
+        # Prepare the result message
+        if detected_processes:
+            result_message = "Malicious Processes Detected:\n" + "\n".join(detected_processes)
+        else:
+            result_message = "No malicious processes detected."
+        
+        messagebox.showinfo("Scan Complete", result_message)
+
+# Example usage in a GUI application
+# if __name__ == "__main__":
+    # Initialize your GUI and create an instance of ProcessMonitor
+    # monitor = ProcessMonitor()
+    # monitor.process_scan() 
+    # Call  when the user clicks the button to start the scan
