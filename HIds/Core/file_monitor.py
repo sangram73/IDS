@@ -66,7 +66,7 @@ class FileSystemMonitor:
         for f in modified:
             changes.append(("MODIFIED", f))
 
-        return changes
+        show_alert(changes)
 
     def save_snapshot(self, snapshot):
         with open(self.snapshot_file, 'w') as f:
@@ -100,6 +100,8 @@ class FileSystemMonitor:
                     log.write(log_msg + "\n")
         else:
             print("[*] No changes since last run.")
+            show_warning("No changes since last run.")
+
 
         self.save_snapshot(curr_snapshot)
 
@@ -108,7 +110,7 @@ class FileSystemMonitor:
 
         try:
             while True:
-                time.sleep(1)
+                time.sleep(2)
         except KeyboardInterrupt:
             self.observer.stop()
             print("\n[!] Monitoring stopped.")
