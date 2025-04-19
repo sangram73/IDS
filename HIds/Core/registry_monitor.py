@@ -4,6 +4,7 @@ import win32event
 import logging
 import time
 import threading
+from alert_manager import show_alert, show_warning
 
 class RegistryMonitor:
     def __init__(self, log_path, hives, subkeys):
@@ -28,7 +29,7 @@ class RegistryMonitor:
                 )
                 win32event.WaitForSingleObject(event, win32con.INFINITE)
                 message = f"[ALERT] Registry Change Detected: [{hive_name}\\{subkey}]"
-                print(message)
+                show_warning(message)
                 logging.info(message)
 
         except Exception as e:
@@ -48,7 +49,7 @@ class RegistryMonitor:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            print("🛑 Registry Monitor Stopped.")
+            show_warning("🛑 Registry Monitor Stopped.")
 
 
 
