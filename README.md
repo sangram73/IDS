@@ -64,16 +64,16 @@ In today’s rapidly evolving cybersecurity landscape, organizations must proact
 Here are some screenshots of the HIDS in action:
 
 1. **Main Dashboard**  
-   ![Main Dashboard](HIds/utils/Main%20Dashbord.pngMain Dashbord.png)  
+   ![Main Dashboard](HIds/utils/Main%20Dashbord.png)  
    *Description: This screenshot shows the main dashboard of the HIDS, displaying real-time monitoring statistics.*
 
 2. **File Integrity Monitoring**  
-   ![File Integrity Monitoring](HIds/utils/Ids%20Alert%20popup.pngIds Alert popup.png)  
+   ![File Integrity Monitoring](HIds/utils/Ids%20Alert%20popup.png)  
    *Description: This screenshot illustrates the file integrity monitoring feature, highlighting recent changes to critical files.*
 
-3. **Network Activity Monitoring**  
-   ![Network Activity Monitoring](HIds/utils/Process%20Monitoring.pngProcess Monitoring.png)  
-   *Description: This screenshot captures the network activity monitoring interface, showing active connections and alerts for suspicious traffic.*
+3. **Process Activity Monitoring**  
+   ![Network Activity Monitoring](HIds/utils/Process%20Monitoring.png)  
+   *Description: This screenshot captures the Process activity monitoring interface, showing active connections and alerts for suspicious traffic.*
 
 
 ### **Project Structure**
