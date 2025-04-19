@@ -1,7 +1,9 @@
-process
+keyword
 wuauserv.exe
 svch0st.exe
+backgroundTaskHost.exe
 csrss.exe
+Code.exe
 ShellHost.exe
 lsasss.exe
 spoolsv.exe
