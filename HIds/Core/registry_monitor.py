@@ -1,4 +1,5 @@
 import win32api
+import winreg
 import win32con
 import win32event
 import logging
@@ -51,6 +52,17 @@ class RegistryMonitor:
         except KeyboardInterrupt:
             show_warning("🛑 Registry Monitor Stopped.")
 
+
+if __name__ == "__main__":
+    HIVES = {
+    "HKEY_LOCAL_MACHINE": winreg.HKEY_LOCAL_MACHINE,
+    "HKEY_CURRENT_USER": winreg.HKEY_CURRENT_USER
+ }
+    SUBKEYS = [r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"]
+    LOG_PATH = r"HIds\\logs\\registry_changes.log"
+    # Initialize your GUI and create an instance of ProcessMonitor
+    monitor = RegistryMonitor(LOG_PATH,HIVES,SUBKEYS)
+    monitor.start_monitoring() 
 
 
 

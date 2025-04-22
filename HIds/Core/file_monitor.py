@@ -14,6 +14,8 @@ class FileSystemMonitor:
         self.snapshot_file = snapshot_file
         self.event_handler = self.FileChangeLogger(self)
         self.observer = Observer()
+        self.StopfileScan = False  # Flag to control sniffing
+
 
     class FileChangeLogger(FileSystemEventHandler):
         def __init__(self, monitor):
@@ -101,6 +103,7 @@ class FileSystemMonitor:
         else:
             print("[*] No changes since last run.")
             show_warning("No changes since last run.")
+            FileSystemMonitor.stop(self)
 
 
         self.save_snapshot(curr_snapshot)
@@ -117,4 +120,7 @@ class FileSystemMonitor:
         self.observer.join()
 
 
- 
+    def stop(self):
+        print("\n[!] Monitoring stopped.")
+        self.observer.stop()
+        

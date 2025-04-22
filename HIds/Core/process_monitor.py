@@ -51,8 +51,8 @@ class ProcessMonitor:
         messagebox.showinfo("Scan Complete", result_message)
 
 # Example usage in a GUI application
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # Initialize your GUI and create an instance of ProcessMonitor
-    # monitor = ProcessMonitor()
-    # monitor.process_scan() 
+    monitor = ProcessMonitor()
+    monitor.process_scan() 
     # Call  when the user clicks the button to start the scan
