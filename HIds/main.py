@@ -8,6 +8,9 @@ from Core.file_monitor import FileSystemMonitor
 from Core.process_monitor import ProcessMonitor
 from Core.network_monitor import NetworkMonitor
 from Core.registry_monitor import RegistryMonitor
+from alert_manager import show_alert, show_warning
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 watch_dir = r""
 log_file = r"HIds\logs\file_changes.log"
@@ -24,7 +27,7 @@ LOG_PATH = r"HIds\\logs\\registry_changes.log"
 class HIDSApp:
     def __init__(self, master):
         self.master = master
-        self.master.title("HIDS Security Scanner")
+        self.master.title("LiveShield-HIDS Security Scanner")
         self.master.geometry("800x500")
         self.icon = ImageTk.PhotoImage(file=r"HIds\utils\favicon-32x32.png")
         self.master.iconphoto(False, self.icon)
@@ -33,21 +36,24 @@ class HIDSApp:
         self.scanning = False
         self.network_monitor = None  # To hold the network monitor instance
 
-        self.bg_image = Image.open(r"HIds\utils\blackbg.png")
-        self.bg_photo = ImageTk.PhotoImage(self.bg_image)
+        self.bg_image = Image.open(r"HIds\utils\bg_new.jpg")
+        img=self.bg_image.resize((800, 500))
+        self.bg_photo = ImageTk.PhotoImage(img)
         self.background_label = tk.Label(master, image=self.bg_photo, bg="#000000")
         self.background_label.image = self.bg_photo
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+        
 
         self.style = ttk.Style()
         self.style.configure("TButton", font=("Segoe UI", 12), padding=10, relief="flat", background="#0078d7", foreground="black")
         self.style.map("TButton", background=[("active", "#0056a3")], foreground=[("active", "white")])
         self.style.configure("TLabel", background="#000000", foreground="white", font=("Segoe UI", 16, "bold"))
 
-        self.title_label = ttk.Label(master, text="LiveShield")
-        self.title_label.place(relx=0.5, rely=0.05, anchor='center')
+        # self.title_label = ttk.Label(master, text="LiveShield" ,background="black", foreground="black")
+        # self.title_label.place(relx=0.5, rely=0.05, anchor='center')
 
-        self.create_left_section()
+        #self.create_left_section()
         self.create_buttons()
         self.create_menu()
 
@@ -80,75 +86,159 @@ class HIDSApp:
 
     def create_buttons(self):
         button_frame = ttk.Frame(self.master, style="TFrame", padding=(10, 10))
-        button_frame.place(relx=0.4, rely=0.14, relwidth=0.53, relheight=0.68)
+        button_frame.place(relx=0.45, rely=0.18, relwidth=0.53, relheight=0.64)
 
-        btn_full_scan = ttk.Button(button_frame, text="🧰 Full Scan", command=lambda: threading.Thread(target=self.full_scan).start())
-        btn_file_scan = ttk.Button(button_frame, text="📁 File Scan", command=lambda: threading.Thread(target=self.file_scan).start())
-        btn_registry_scan = ttk.Button(button_frame, text="🧾 Registry Scan", command=lambda: threading.Thread(target=self.registry_scan).start())
-        btn_network_scan = ttk.Button(button_frame, text="🌐 Network Scan", command=lambda: threading.Thread(target=self.network_scan).start())
-        btn_process_scan = ttk.Button(button_frame, text="⚙️ Process Scan", command=lambda: threading.Thread(target=self.process_scan).start())
-        btn_stop = ttk.Button(button_frame, text="🛑 Stop Scan", command=self.stop_scan)
+        btn_full_scan = ttk.Button(button_frame, text="🧰 Full Scan",bootstyle="primary,outline", command=lambda: threading.Thread(target=self.full_scan).start())
+        btn_file_scan = ttk.Button(button_frame, text="📁 File Scan",bootstyle="primary,outline", command=lambda: threading.Thread(target=self.file_scan).start())
+        btn_registry_scan = ttk.Button(button_frame, text="🧾 Registry Scan",bootstyle="primary,outline", command=lambda: threading.Thread(target=self.registry_scan).start())
+        btn_network_scan = ttk.Button(button_frame, text="🌐 Network Scan",bootstyle="primary,outline", command=lambda: threading.Thread(target=self.network_scan).start())
+        btn_process_scan = ttk.Button(button_frame, text="⚙️ Process Scan",bootstyle="primary,outline", command=lambda: threading.Thread(target=self.process_scan).start())
+        btn_stop = ttk.Button(button_frame, text="🛑 Stop Scan",bootstyle="primary,outline", command=self.stop_scan)
 
-        btn_prev_report = ttk.Button(button_frame, text=" 🔍 See Previous Scan Report", command=self.show_prev_report)
-        btn_review_log = ttk.Button(button_frame, text="📄 Review Log", command=self.review_log)
+        btn_prev_report = ttk.Button(button_frame, text=" 🔍 See Previous Scan Report",bootstyle="primary,outline", command=self.show_prev_report)
+        btn_review_log = ttk.Button(button_frame, text="📄 Review Log",bootstyle="primary,outline", command=self.review_log)
 
-        btn_process_scan.grid(row=0, column=0, padx=5, pady=5, sticky='ew')
-        btn_file_scan.grid(row=0, column=1, padx=5, pady=5, sticky='ew')
-        btn_registry_scan.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
-        btn_network_scan.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
-        btn_full_scan.grid(row=2, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
-        btn_stop.grid(row=3, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
+        btn_process_scan.grid(row=0, column=0, padx=5, pady=10, sticky='ew')
+        btn_file_scan.grid(row=0, column=1, padx=5, pady=10, sticky='ew')
+        btn_registry_scan.grid(row=1, column=0, padx=5, pady=10, sticky='ew')
+        btn_network_scan.grid(row=1, column=1, padx=5, pady=10, sticky='ew')
+        btn_full_scan.grid(row=2, column=0, columnspan=2, padx=5, pady=10, sticky='ew')
+        btn_stop.grid(row=3, column=0, columnspan=2, padx=5, pady=10, sticky='ew')
 
-        btn_prev_report.grid(row=4, column=0, padx=5, pady=5, sticky='ew')
-        btn_review_log.grid(row=4, column=1, padx=5, pady=5, sticky='ew')
+        btn_prev_report.grid(row=4, column=0, padx=5, pady=10, sticky='ew')
+        btn_review_log.grid(row=4, column=1, padx=5, pady=10, sticky='ew')
 
-    def create_left_section(self):
-        self.logo_image = Image.open(r"HIds\utils\logo1.png")
-        self.logo_photo = ImageTk.PhotoImage(self.logo_image)
-        logo_label = ttk.Label(self.master, image=self.logo_photo, background="#1f1d1d")
-        logo_label.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.35)
+    # def create_left_section(self):
+    #     self.logo_image = Image.open(r"IDS\HIds\utils\logo1.png")
+    #     self.logo_photo = ImageTk.PhotoImage(self.logo_image)
+    #     logo_label = ttk.Label(self.master, image=self.logo_photo, background="#1f1d1d")
+    #     logo_label.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.35)
 
     def show_prev_report(self):
         messagebox.showinfo("Previous Scan Report", "Displaying previous scan report...")
 
     def review_log(self):
-        messagebox.showinfo("Review Log", "Opening log review...")
+        # Create a new window for reviewing the log
+        log_window = tk.Toplevel(self.master)
+        log_window.title("Log Review")
+        log_window.geometry("600x400")
+
+        # Create a Text widget to display the log contents
+        log_text = tk.Text(log_window, wrap=tk.WORD)
+        log_text.pack(expand=True, fill=tk.BOTH)
+
+        # Add a scrollbar to the Text widget
+        scrollbar = tk.Scrollbar(log_window, command=log_text.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        log_text.config(yscrollcommand=scrollbar.set)
+
+        # Read the log file and insert its contents into the Text widget
+        try:
+            with open(log_file, 'r') as file:
+                log_contents = file.read()
+                log_text.insert(tk.END, log_contents)
+        except FileNotFoundError:
+            log_text.insert(tk.END, "Log file not found.")
+        except Exception as e:
+            log_text.insert(tk.END, f"An error occurred: {str(e)}")
+
+        # Make the Text widget read-only
+        log_text.config(state=tk.DISABLED)
+
+    # def full_scan(self):
+    #     self.scanning = True
+    #     messagebox.showinfo("Full Scan", "Performing full system scan...")
+        
+    #     # Call each scan method sequentially
+    #     self.process_scan()
+    #     if not self.scanning:
+    #         return
+
+    #     self.registry_scan()
+    #     if not self.scanning:
+    #         return
+        
+    #     self.network_scan()
+    #     if not self.scanning:
+    #         self.stop_scan()
+    #         return
+        
+    #     self.file_scan()
+    #     if not self.scanning:
+    #         self.stop_scan()
+    #         return
+    #     messagebox.showinfo("Scan Complete", "Full system scan completed.")
 
     def full_scan(self):
-        self.scanning = True
-        messagebox.showinfo("Full Scan", "Performing full system scan...")
-        
-        # Call each scan method sequentially
-        self.process_scan()
-        if not self.scanning:
-            return
+        threading.Thread(target=self._full_scan_logic).start()
 
-        self.registry_scan()
-        if not self.scanning:
-            return
-        
-        self.network_scan()
-        if not self.scanning:
-            self.stop_scan()
-            return
-        
-        self.file_scan()
-        self.scanning
-        messagebox.showinfo("Scan Complete", "Full system scan completed.")
+    def _full_scan_logic(self):
+        self.scanning = True
+        show_alert("Full Scan, Performing full system scan...")
+
+        self._process_scan_sync()
+        if not self.scanning: return
+
+        self._registry_scan_sync()
+        if not self.scanning: return
+
+        self._network_scan_sync()
+        if not self.scanning: return
+
+        self._file_scan_sync()
+        if not self.scanning: return
+
+        show_alert("Scan Complete, Full system scan completed.")
+
+# --------- SYNC versions of scan methods (used only in full_scan) ----------
+
+    def _process_scan_sync(self):   
+        monitor = ProcessMonitor()
+        monitor.process_scan()
+
+    def _registry_scan_sync(self):  
+        DURATION = 5
+        monitor = RegistryMonitor(LOG_PATH, HIVES, SUBKEYS, DURATION)
+        monitor.start_monitoring()
+        for i in range(5):
+            if not self.scanning:
+                return
+            time.sleep(1)
+
+    def _network_scan_sync(self):   
+        self.network_monitor = NetworkMonitor("Intel(R) Wi-Fi 6E AX211 160MHz")  # Or auto-select
+        self.network_monitor.start_sniffing()
+        for i in range(5):
+            if not self.scanning:
+                self.network_monitor.stop_sniffing()
+                return
+            time.sleep(1)
+        self.network_monitor.stop_sniffing()
+
+    def _file_scan_sync(self):
+        # Choose default or predefined directory instead of GUI interaction
+        directory = r"C:\Users\KIIT0001\Downloads"  # You could auto-configure this or add a parameter
+        monitor = FileSystemMonitor(watch_dir=directory, log_file=log_file, snapshot_file=snapshot_file)
+        monitor.start_monitoring()
+        for i in range(5):
+            if not self.scanning:
+               return
+            time.sleep(1)
+
 
     def file_scan(self):
-        directory = filedialog.askdirectory(title="Select Directory to Scan")
-        monitor = FileSystemMonitor(watch_dir=directory, log_file=log_file, snapshot_file=snapshot_file)
-        if directory:
-            self.scanning = True
-            messagebox.showinfo("File Scan", f"Scanning directory: {directory}...")
-            monitor.start_monitoring()
-            for i in range(5):
-                if not self.scanning:
-                    messagebox.showinfo("Scan Aborted", "File system scan was aborted.")
-                    return
-                time.sleep(1)  # Simulate work being done
-            messagebox.showinfo("Scan Complete", "File system scan completed.")
+            directory = filedialog.askdirectory(title="Select Directory to Scan")
+            monitor = FileSystemMonitor(watch_dir=directory, log_file=log_file, snapshot_file=snapshot_file)
+            if directory:
+                self.scanning = True
+                messagebox.showinfo("File Scan", f"Scanning directory: {directory}...")
+                monitor.start_monitoring()
+                for i in range(5):
+                    if not self.scanning:
+                        messagebox.showinfo("Scan Aborted", "File system scan was aborted.")
+                        return
+                    time.sleep(1)  # Simulate work being done
+                messagebox.showinfo("Scan Complete", "File system scan completed.")
 
     def registry_scan(self):
         self.scanning = True
@@ -156,7 +246,9 @@ class HIDSApp:
 
     # Define a function for the monitoring
         def monitor_registry():
-            monitor = RegistryMonitor(LOG_PATH, HIVES, SUBKEYS)
+            # Duration in seconds (e.g., 60 for 1 minute)
+            DURATION = 5
+            monitor = RegistryMonitor(LOG_PATH, HIVES, SUBKEYS, DURATION)
             monitor.start_monitoring()
 
             # Simulate work with sleep
