@@ -123,4 +123,3 @@ class FileSystemMonitor:
     def stop(self):
         print("\n[!] Monitoring stopped.")
         self.observer.stop()
-        
