@@ -1,0 +1,16 @@
+tkinter
+watchdog
+json
+time
+datetime
+scapy
+threading
+pandas
+psutil
+csv
+win32api
+win32con
+win32event
+logging
+pillow
+ttkbootstrap
