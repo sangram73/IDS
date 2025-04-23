@@ -2,6 +2,7 @@ import scapy.all as scapy
 from datetime import datetime
 import pandas as pd
 import threading
+import time
 
 class NetworkMonitor:
     def __init__(self, interface):
@@ -47,8 +48,9 @@ class NetworkMonitor:
         print("Stopping network monitoring...")
         self.sniffing = False  # Set the flag to False to stop sniffing
 
-# Example usage:
-# monitor = NetworkMonitor("eth0")
+# # Example usage:
+# monitor = NetworkMonitor("Intel(R) Wi-Fi 6E AX211 160MHz")
 # monitor.start_sniffing()
-# ... some time later ...
+# # ... some time later ...
+# time.sleep(5)
 # monitor.stop_sniffing()
